@@ -40,163 +40,163 @@ namespace AdultGamingForum.Controllers
         // POST: Discussions/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Discussion discussion, IFormFile ImageFile)
+        public async Task<IActionResult> Create([Bind("Title,Content")] Discussion discussion, IFormFile? ImageFile)
         {
             if (ModelState.IsValid)
             {
-                // Set the creation date.
                 discussion.CreateDate = DateTime.Now;
 
+                _context.Add(discussion);
+                await _context.SaveChangesAsync();
+
+                // Handle image upload AFTER saving to get the DiscussionId
                 if (ImageFile != null && ImageFile.Length > 0)
                 {
-                    // Build the path to the uploads folder inside wwwroot.
-                    var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+                    var imagesFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
 
-                    // Create the folder if it doesn't exist.
-                    if (!Directory.Exists(uploads))
+                    if (!Directory.Exists(imagesFolder))
                     {
-                        Directory.CreateDirectory(uploads);
+                        Directory.CreateDirectory(imagesFolder);
                     }
 
-                    // Get the file name and combine with the uploads folder.
-                    var fileName = Path.GetFileName(ImageFile.FileName);
-                    var filePath = Path.Combine(uploads, fileName);
+                    var fileExtension = Path.GetExtension(ImageFile.FileName);
+                    var uniqueFileName = $"ADF_{discussion.DiscussionId}{fileExtension}";
+                    var filePath = Path.Combine(imagesFolder, uniqueFileName);
 
-                    // Save the file to the specified location.
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await ImageFile.CopyToAsync(fileStream);
                     }
 
-                    // Update the Discussion model with the file name.
-                    discussion.ImageFilename = fileName;
+                    // Update the discussion with the image filename
+                    discussion.ImageFilename = uniqueFileName;
+                    _context.Update(discussion);
+                    await _context.SaveChangesAsync();
                 }
 
-                // Save the discussion to the database.
-                _context.Add(discussion);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(discussion);
-        }        
+        }
 
-        // GET: Discussions/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var discussion = await _context.Discussions.FindAsync(id);
-        //    if (discussion == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(discussion);
-        //}
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, Discussion discussion, IFormFile ImageFile)
-        //{
-        //    if (id != discussion.DiscussionId)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            // If a new file is uploaded, process it.
-        //            if (ImageFile != null && ImageFile.Length > 0)
-        //            {
-        //                // Build the path to the uploads folder inside wwwroot.
-        //                var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+        //GET: Discussions/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //                // Create the folder if it doesn't exist.
-        //                if (!Directory.Exists(uploads))
-        //                {
-        //                    Directory.CreateDirectory(uploads);
-        //                }
+            var discussion = await _context.Discussions.FindAsync(id);
+            if (discussion == null)
+            {
+                return NotFound();
+            }
+            return View(discussion);
+        }
 
-        //                var fileName = Path.GetFileName(ImageFile.FileName);
-        //                var filePath = Path.Combine(uploads, fileName);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("DiscussionId,Title,Content")] Discussion discussion, IFormFile? ImageFile)
+        {
+            if (id != discussion.DiscussionId)
+            {
+                return NotFound();
+            }
 
-        //                // Save the file.
-        //                using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //                {
-        //                    await ImageFile.CopyToAsync(fileStream);
-        //                }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var existingDiscussion = await _context.Discussions.AsNoTracking().FirstOrDefaultAsync(d => d.DiscussionId == id);
+                    if (existingDiscussion == null)
+                    {
+                        return NotFound();
+                    }
 
-        //                // Set the new file name in the discussion model.
-        //                discussion.ImageFilename = fileName;
-        //            }
-        //            else
-        //            {
-        //                // No new file uploaded, so keep the existing image.
-        //                // Retrieve the existing discussion from the database.
-        //                var originalDiscussion = await _context.Discussions
-        //                    .AsNoTracking()
-        //                    .FirstOrDefaultAsync(d => d.DiscussionId == id);
-        //                if (originalDiscussion != null)
-        //                {
-        //                    discussion.ImageFilename = originalDiscussion.ImageFilename;
-        //                }
-        //            }
+                    // If a new image is uploaded, replace the old one
+                    if (ImageFile != null && ImageFile.Length > 0)
+                    {
+                        var imagesFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
 
-        //            _context.Update(discussion);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!DiscussionExists(discussion.DiscussionId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(discussion);
-        //}
+                        if (!Directory.Exists(imagesFolder))
+                        {
+                            Directory.CreateDirectory(imagesFolder);
+                        }
 
-        // GET: Discussions/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+                        var fileExtension = Path.GetExtension(ImageFile.FileName);
+                        var uniqueFileName = $"ADF_{discussion.DiscussionId}{fileExtension}";
+                        var filePath = Path.Combine(imagesFolder, uniqueFileName);
 
-        //    var discussion = await _context.Discussions
-        //        .FirstOrDefaultAsync(m => m.DiscussionId == id);
-        //    if (discussion == null)
-        //    {
-        //        return NotFound();
-        //    }
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await ImageFile.CopyToAsync(fileStream);
+                        }
 
-        //    return View(discussion);
-        //}
+                        discussion.ImageFilename = uniqueFileName; // Update filename
+                    }
+                    else
+                    {
+                        // Retain the existing image filename
+                        discussion.ImageFilename = existingDiscussion.ImageFilename;
+                    }
 
-        //// POST: Discussions/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var discussion = await _context.Discussions.FindAsync(id);
-        //    if (discussion != null)
-        //    {
-        //        _context.Discussions.Remove(discussion);
-        //    }
+                    _context.Update(discussion);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Discussions.Any(d => d.DiscussionId == id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(discussion);
+        }
 
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+
+
+        //GET: Discussions/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var discussion = await _context.Discussions
+                .FirstOrDefaultAsync(m => m.DiscussionId == id);
+            if (discussion == null)
+            {
+                return NotFound();
+            }
+
+            return View(discussion);
+        }
+
+        // POST: Discussions/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var discussion = await _context.Discussions.FindAsync(id);
+            if (discussion != null)
+            {
+                _context.Discussions.Remove(discussion);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
         private bool DiscussionExists(int id)
         {

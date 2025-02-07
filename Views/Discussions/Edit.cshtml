@@ -34,14 +34,8 @@
             <!-- Optionally, display the current image if one exists -->
             @if (!string.IsNullOrEmpty(Model.ImageFilename))
             {
-                <div class="form-group">
-                    <label class="control-label">Current Image</label>
-                    <br />
-                    <img src="~/uploads/@Model.ImageFilename" alt="Current Image" class="img-thumbnail" style="max-width:200px;" />
-                </div>
+                <img src="~/images/@Model.ImageFilename" alt="@Model.Title" class="img-fluid mt-3" style="max-width: 100%; height: auto;"/>
             }
-
-            <!-- You don't need a text input for ImageFilename here; the file input and controller logic will handle updating it -->
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

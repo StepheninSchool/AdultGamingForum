@@ -24,12 +24,13 @@
                 <div class="mr-3">
                     @if (!string.IsNullOrEmpty(discussion.ImageFilename))
                     {
-                        <img src="~/uploads/@discussion.ImageFilename" alt="@discussion.Title" class="img-thumbnail" style="width:100px; height:100px; object-fit:cover;" />
+                        <img src="~/images/@discussion.ImageFilename" alt="@discussion.Title" class="img-thumbnail" style="width:100px; height:100px; object-fit:contain;" />
                     }
                     else
                     {
-                        <img src="~/images/placeholder.png" alt="No Image" class="img-thumbnail" style="width:100px; height:100px; object-fit:cover;" />
+                        <img src="~/images/placeholder.png" alt="No Image" class="img-thumbnail" style="width:100px; height:100px; object-fit:contain;" />
                     }
+                    
                 </div>
                 <div class="flex-grow-1 ml-3">
                     <h4>

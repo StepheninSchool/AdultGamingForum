@@ -2,51 +2,65 @@
 
 @{
     ViewData["Title"] = "Discussion Details";
-    // Sort comments descending by CreateDate
     var sortedComments = Model.Comments.OrderByDescending(c => c.CreateDate);
 }
 
-<h1>Discussion Details</h1>
+<div class="container my-4">
+    <!-- Discussion Card -->
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-3">@Model.Title</h1>
 
-<div class="mb-4">
-    <h2>@Model.Title</h2>
-    <p>@Model.Content</p>
-    <small class="text-muted">Created on: @Model.CreateDate.ToString("g")</small>
-</div>
-
-@if (!string.IsNullOrEmpty(Model.ImageFilename))
-{
-    <div class="mb-4">
-        <img src="~/uploads/@Model.ImageFilename" alt="Discussion image" class="img-fluid" style="max-width:400px;" />
-    </div>
-}
-
-<!-- Link to add a new comment -->
-<div class="mb-3">
-    <a asp-controller="Comments" asp-action="Create" asp-route-discussionId="@Model.DiscussionId" class="btn btn-success">
-        Add Comment
-    </a>
-</div>
-
-<h3>Comments</h3>
-
-@if (!sortedComments.Any())
-{
-    <p>No comments yet. Be the first to comment!</p>
-}
-else
-{
-    @foreach (var comment in sortedComments)
-    {
-        <div class="card mb-3">
-            <div class="card-body">
-                <p class="card-text">@comment.Content</p>
-                <p class="card-text"><small class="text-muted">Posted on @comment.CreateDate.ToString("g")</small></p>
+        @if (!string.IsNullOrEmpty(Model.ImageFilename))
+        {
+            <div class="text-center mb-4">
+                <img src="~/images/@Model.ImageFilename" alt="@Model.Title" class="img-fluid rounded" style="max-width: 80%; height: auto; border: 2px solid #ddd; padding: 5px;" />
             </div>
-        </div>
-    }
-}
+        }
 
-<div class="mt-4">
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <p class="lead">@Model.Content</p>
+        <small class="text-muted">Created on: @Model.CreateDate.ToString("g")</small>
+    </div>
+
+    <!-- Add Comment Button -->
+    <div class="text-end my-4">
+        <a asp-controller="Comments" asp-action="Create" asp-route-discussionId="@Model.DiscussionId" class="btn btn-success btn-lg">
+            <i class="bi bi-chat-left-dots"></i> Add Comment
+        </a>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="mt-4">
+        <h3 class="border-bottom pb-2 mb-3">Comments</h3>
+
+        @if (!sortedComments.Any())
+        {
+            <div class="alert alert-info text-center" role="alert">
+                No comments yet. Be the first to comment!
+            </div>
+        }
+        else
+        {
+            @foreach (var comment in sortedComments)
+            {
+                <div class="card mb-3 border-0 shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text">@comment.Content</p>
+                        <p class="card-text text-end">
+                            <small class="text-muted">Posted on @comment.CreateDate.ToString("g")</small>
+                        </p>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <!-- Back to List Button -->
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn btn-secondary btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Back to Discussions
+        </a>
+    </div>
 </div>
+
+<!-- Optional Bootstrap Icons (if needed) -->
+@* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">  *@
