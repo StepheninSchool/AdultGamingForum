@@ -81,86 +81,122 @@ namespace AdultGamingForum.Controllers
         }        
 
         // GET: Discussions/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var discussion = await _context.Discussions.FindAsync(id);
-            if (discussion == null)
-            {
-                return NotFound();
-            }
-            return View(discussion);
-        }
+        //    var discussion = await _context.Discussions.FindAsync(id);
+        //    if (discussion == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(discussion);
+        //}
 
-        // POST: Discussions/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DiscussionId,Title,Content,ImageFilename,CreateDate")] Discussion discussion)
-        {
-            if (id != discussion.DiscussionId)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, Discussion discussion, IFormFile ImageFile)
+        //{
+        //    if (id != discussion.DiscussionId)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(discussion);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DiscussionExists(discussion.DiscussionId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(discussion);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            // If a new file is uploaded, process it.
+        //            if (ImageFile != null && ImageFile.Length > 0)
+        //            {
+        //                // Build the path to the uploads folder inside wwwroot.
+        //                var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+
+        //                // Create the folder if it doesn't exist.
+        //                if (!Directory.Exists(uploads))
+        //                {
+        //                    Directory.CreateDirectory(uploads);
+        //                }
+
+        //                var fileName = Path.GetFileName(ImageFile.FileName);
+        //                var filePath = Path.Combine(uploads, fileName);
+
+        //                // Save the file.
+        //                using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //                {
+        //                    await ImageFile.CopyToAsync(fileStream);
+        //                }
+
+        //                // Set the new file name in the discussion model.
+        //                discussion.ImageFilename = fileName;
+        //            }
+        //            else
+        //            {
+        //                // No new file uploaded, so keep the existing image.
+        //                // Retrieve the existing discussion from the database.
+        //                var originalDiscussion = await _context.Discussions
+        //                    .AsNoTracking()
+        //                    .FirstOrDefaultAsync(d => d.DiscussionId == id);
+        //                if (originalDiscussion != null)
+        //                {
+        //                    discussion.ImageFilename = originalDiscussion.ImageFilename;
+        //                }
+        //            }
+
+        //            _context.Update(discussion);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!DiscussionExists(discussion.DiscussionId))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(discussion);
+        //}
 
         // GET: Discussions/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var discussion = await _context.Discussions
-                .FirstOrDefaultAsync(m => m.DiscussionId == id);
-            if (discussion == null)
-            {
-                return NotFound();
-            }
+        //    var discussion = await _context.Discussions
+        //        .FirstOrDefaultAsync(m => m.DiscussionId == id);
+        //    if (discussion == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(discussion);
-        }
+        //    return View(discussion);
+        //}
 
-        // POST: Discussions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var discussion = await _context.Discussions.FindAsync(id);
-            if (discussion != null)
-            {
-                _context.Discussions.Remove(discussion);
-            }
+        //// POST: Discussions/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var discussion = await _context.Discussions.FindAsync(id);
+        //    if (discussion != null)
+        //    {
+        //        _context.Discussions.Remove(discussion);
+        //    }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool DiscussionExists(int id)
         {
@@ -175,7 +211,9 @@ namespace AdultGamingForum.Controllers
             }
 
             var discussion = await _context.Discussions
+                .Include(d => d.Comments)
                 .FirstOrDefaultAsync(m => m.DiscussionId == id);
+
             if (discussion == null)
             {
                 return NotFound();
@@ -183,5 +221,6 @@ namespace AdultGamingForum.Controllers
 
             return View(discussion);
         }
+
     }
 }

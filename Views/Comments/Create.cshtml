@@ -1,40 +1,33 @@
-﻿@model AdultGamingForum.Models.Discussion
+﻿@model AdultGamingForum.Models.Comment
 
 @{
-    ViewData["Title"] = "Create Discussion";
+    ViewData["Title"] = "Add Comment";
 }
 
-<h1>Create Discussion</h1>
+<h1>Add Comment</h1>
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
+<!-- Form to submit a new comment -->
+<form asp-action="Create" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="form-group">
-        <label asp-for="Title" class="control-label"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
-
+    
+    <!-- Hidden field to store the Discussion ID -->
+    <input type="hidden" asp-for="DiscussionId" value="@ViewBag.DiscussionId" />
+    
     <div class="form-group">
         <label asp-for="Content" class="control-label"></label>
-        <textarea asp-for="Content" class="form-control"></textarea>
+        <!-- Use a multi-line textarea for the comment text -->
+        <textarea asp-for="Content" class="form-control" rows="5"></textarea>
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
-
+    
     <div class="form-group">
-        <label asp-for="ImageFilename" class="control-label">Upload Image</label>
-        <!-- File input for uploading an image -->
-        <input asp-for="ImageFilename" type="file" class="form-control" />
-        <span asp-validation-for="ImageFilename" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Submit Comment" class="btn btn-primary" />
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <!-- Link back to the Discussion details page -->
+    <a asp-action="Details" asp-controller="Discussions" asp-route-id="@ViewBag.DiscussionId">Back to Discussion</a>
 </div>
 
 @section Scripts {

@@ -1,38 +1,48 @@
 ﻿@model AdultGamingForum.Models.Discussion
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Discussion";
 }
 
-<h1>Edit</h1>
+<h1>Edit Discussion</h1>
 
-<h4>Discussion</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <!-- Note: method="post" and enctype="multipart/form-data" are required for file uploads -->
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DiscussionId" />
+
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
+                <textarea asp-for="Content" class="form-control"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
+
+            <!-- File input for uploading a new image -->
             <div class="form-group">
-                <label asp-for="ImageFilename" class="control-label"></label>
-                <input asp-for="ImageFilename" class="form-control" />
-                <span asp-validation-for="ImageFilename" class="text-danger"></span>
+                <label class="control-label">Upload New Image (optional)</label>
+                <input type="file" name="ImageFile" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="CreateDate" class="control-label"></label>
-                <input asp-for="CreateDate" class="form-control" />
-                <span asp-validation-for="CreateDate" class="text-danger"></span>
-            </div>
+
+            <!-- Optionally, display the current image if one exists -->
+            @if (!string.IsNullOrEmpty(Model.ImageFilename))
+            {
+                <div class="form-group">
+                    <label class="control-label">Current Image</label>
+                    <br />
+                    <img src="~/uploads/@Model.ImageFilename" alt="Current Image" class="img-thumbnail" style="max-width:200px;" />
+                </div>
+            }
+
+            <!-- You don't need a text input for ImageFilename here; the file input and controller logic will handle updating it -->
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -45,5 +55,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using AdultGamingForum.Data;
 using AdultGamingForum.Models;
 
@@ -19,146 +15,31 @@ namespace AdultGamingForum.Controllers
             _context = context;
         }
 
-        // GET: Comments
-        public async Task<IActionResult> Index()
+        // GET: Comments/Create?discussionId=1
+        public IActionResult Create(int discussionId)
         {
-            var ForumContext = _context.Comments.Include(c => c.Discussion);
-            return View(await ForumContext.ToListAsync());
-        }
-
-        // GET: Comments/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var comment = await _context.Comments
-                .Include(c => c.Discussion)
-                .FirstOrDefaultAsync(m => m.CommentId == id);
-            if (comment == null)
-            {
-                return NotFound();
-            }
-
-            return View(comment);
-        }
-
-        // GET: Comments/Create
-        public IActionResult Create()
-        {
-            ViewData["DiscussionId"] = new SelectList(_context.Discussions, "DiscussionId", "DiscussionId");
+            // Pass the discussion ID to the view using ViewBag or ViewData.
+            ViewBag.DiscussionId = discussionId;
             return View();
         }
 
         // POST: Comments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CommentId,Content,CreateDate,DiscussionId")] Comment comment)
+        public async Task<IActionResult> Create([Bind("Content,DiscussionId")] Comment comment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(comment);
+                comment.CreateDate = DateTime.Now;
+                _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Redirect to the "Get Discussion" page (Details view of DiscussionsController)
+                return RedirectToAction("Details", "Discussions", new { id = comment.DiscussionId });
             }
-            ViewData["DiscussionId"] = new SelectList(_context.Discussions, "DiscussionId", "DiscussionId", comment.DiscussionId);
+            // If ModelState is invalid, reassign the DiscussionId and show the form again.
+            ViewBag.DiscussionId = comment.DiscussionId;
             return View(comment);
-        }
-
-        // GET: Comments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var comment = await _context.Comments.FindAsync(id);
-            if (comment == null)
-            {
-                return NotFound();
-            }
-            ViewData["DiscussionId"] = new SelectList(_context.Discussions, "DiscussionId", "DiscussionId", comment.DiscussionId);
-            return View(comment);
-        }
-
-        // POST: Comments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CommentId,Content,CreateDate,DiscussionId")] Comment comment)
-        {
-            if (id != comment.CommentId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(comment);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CommentExists(comment.CommentId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["DiscussionId"] = new SelectList(_context.Discussions, "DiscussionId", "DiscussionId", comment.DiscussionId);
-            return View(comment);
-        }
-
-        // GET: Comments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var comment = await _context.Comments
-                .Include(c => c.Discussion)
-                .FirstOrDefaultAsync(m => m.CommentId == id);
-            if (comment == null)
-            {
-                return NotFound();
-            }
-
-            return View(comment);
-        }
-
-        // POST: Comments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var comment = await _context.Comments.FindAsync(id);
-            if (comment != null)
-            {
-                _context.Comments.Remove(comment);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool CommentExists(int id)
-        {
-            return _context.Comments.Any(e => e.CommentId == id);
         }
     }
 }

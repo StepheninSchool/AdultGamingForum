@@ -4,15 +4,20 @@
 }
 
 <div class="container">
+    <!-- Welcome Section -->
     <div class="row">
-        <div class="col-md-12 text-center my-4">
+        <div class="col-12 text-center my-4">
             <h1 class="display-4">Welcome to Adult Gaming Forum</h1>
-            <p class="lead">Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+            <p class="lead">
+                Check out <a href="https://opencritic.com/" target="_blank">Open Critic</a> for recent reviews.
+            </p>
         </div>
     </div>
     <hr />
+
+    <!-- Recent Posts Section -->
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
             <h2>Recent Posts</h2>
             @if (!Model.Any())
             {
@@ -20,17 +25,46 @@
             }
             else
             {
-                <ul class="list-unstyled">
-                    @foreach (var post in Model)
+                <div class="row">
+                    @foreach (var discussion in Model)
                     {
-                        <li class="mb-4">
-                            <h3>@post.Title</h3>
-                            <p>@post.Content</p>
-                            <small class="text-muted">Posted on: @post.CreateDate.ToString("g")</small>
-                        </li>
+                        <div class="col-md-4 mb-4">
+                            <a asp-controller="Discussions" asp-action="Details" asp-route-id="@discussion.DiscussionId" class="text-decoration-none text-dark">
+                                <div class="card shadow-sm h-100">
+                                    @if (!string.IsNullOrEmpty(discussion.ImageFilename))
+                                    {
+                                        <img src="~/uploads/@discussion.ImageFilename" class="card-img-top" alt="@discussion.Title" style="max-height:200px; object-fit:cover;" />
+                                    }
+                                    <div class="card-body">
+                                        <h5 class="card-title">@discussion.Title</h5>
+                                        <p class="card-text">
+                                            @if (discussion.Content.Length > 100)
+                                            {
+                                                @(discussion.Content.Substring(0, 100) + "...")
+                                            }
+                                            else
+                                            {
+                                                @discussion.Content
+                                            }
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted">Posted on: @discussion.CreateDate.ToString("g")</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     }
-                </ul>
+                </div>
             }
         </div>
     </div>
 </div>
+
+<style>
+    /* Hover effect for clickable cards */
+    a.text-decoration-none:hover .card {
+        transform: translateY(-5px);
+        transition: transform 0.2s ease;
+    }
+</style>
