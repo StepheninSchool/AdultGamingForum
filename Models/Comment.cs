@@ -11,7 +11,6 @@
         //Foreign key to link comment with a discussion
         public int DiscussionId { get; set; }
         //Navigation property: The discussion this comment belongs to.
-        public Discussion Discussion { get; set; }
+        public Discussion? Discussion { get; set; }
     }
 }
-w

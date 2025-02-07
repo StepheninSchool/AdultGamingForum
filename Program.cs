@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using AdultGamingForum.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<AdultGamingForumContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AdultGamingForumContext") ?? throw new InvalidOperationException("Connection string 'AdultGamingForumContext' not found.")));
+builder.Services.AddDbContext<ForumContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ForumContext")
+    ?? throw new InvalidOperationException("Connection string 'ForumContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
