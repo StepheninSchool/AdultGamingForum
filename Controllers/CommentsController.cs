@@ -12,9 +12,9 @@ namespace AdultGamingForum.Controllers
 {
     public class CommentsController : Controller
     {
-        private readonly AdultGamingForumContext _context;
+        private readonly ForumContext _context;
 
-        public CommentsController(AdultGamingForumContext context)
+        public CommentsController(ForumContext context)
         {
             _context = context;
         }
@@ -22,8 +22,8 @@ namespace AdultGamingForum.Controllers
         // GET: Comments
         public async Task<IActionResult> Index()
         {
-            var adultGamingForumContext = _context.Comment.Include(c => c.Discussion);
-            return View(await adultGamingForumContext.ToListAsync());
+            var ForumContext = _context.Comments.Include(c => c.Discussion);
+            return View(await ForumContext.ToListAsync());
         }
 
         // GET: Comments/Details/5
@@ -34,7 +34,7 @@ namespace AdultGamingForum.Controllers
                 return NotFound();
             }
 
-            var comment = await _context.Comment
+            var comment = await _context.Comments
                 .Include(c => c.Discussion)
                 .FirstOrDefaultAsync(m => m.CommentId == id);
             if (comment == null)
@@ -48,7 +48,7 @@ namespace AdultGamingForum.Controllers
         // GET: Comments/Create
         public IActionResult Create()
         {
-            ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId");
+            ViewData["DiscussionId"] = new SelectList(_context.Discussions, "DiscussionId", "DiscussionId");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace AdultGamingForum.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId", comment.DiscussionId);
+            ViewData["DiscussionId"] = new SelectList(_context.Discussions, "DiscussionId", "DiscussionId", comment.DiscussionId);
             return View(comment);
         }
 
@@ -77,12 +77,12 @@ namespace AdultGamingForum.Controllers
                 return NotFound();
             }
 
-            var comment = await _context.Comment.FindAsync(id);
+            var comment = await _context.Comments.FindAsync(id);
             if (comment == null)
             {
                 return NotFound();
             }
-            ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId", comment.DiscussionId);
+            ViewData["DiscussionId"] = new SelectList(_context.Discussions, "DiscussionId", "DiscussionId", comment.DiscussionId);
             return View(comment);
         }
 
@@ -118,7 +118,7 @@ namespace AdultGamingForum.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DiscussionId"] = new SelectList(_context.Discussion, "DiscussionId", "DiscussionId", comment.DiscussionId);
+            ViewData["DiscussionId"] = new SelectList(_context.Discussions, "DiscussionId", "DiscussionId", comment.DiscussionId);
             return View(comment);
         }
 
@@ -130,7 +130,7 @@ namespace AdultGamingForum.Controllers
                 return NotFound();
             }
 
-            var comment = await _context.Comment
+            var comment = await _context.Comments
                 .Include(c => c.Discussion)
                 .FirstOrDefaultAsync(m => m.CommentId == id);
             if (comment == null)
@@ -146,10 +146,10 @@ namespace AdultGamingForum.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var comment = await _context.Comment.FindAsync(id);
+            var comment = await _context.Comments.FindAsync(id);
             if (comment != null)
             {
-                _context.Comment.Remove(comment);
+                _context.Comments.Remove(comment);
             }
 
             await _context.SaveChangesAsync();
@@ -158,7 +158,7 @@ namespace AdultGamingForum.Controllers
 
         private bool CommentExists(int id)
         {
-            return _context.Comment.Any(e => e.CommentId == id);
+            return _context.Comments.Any(e => e.CommentId == id);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AdultGamingForum.Models;
+using AdultGamingForum.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdultGamingForum.Data

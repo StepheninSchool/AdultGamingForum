@@ -1,12 +1,22 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using AdultGamingForum.Data;
+using AdultGamingForum.Models;
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<AdultGamingForumContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AdultGamingForumContext") ?? throw new InvalidOperationException("Connection string 'AdultGamingForumContext' not found.")));
 builder.Services.AddDbContext<ForumContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ForumContext")
-    ?? throw new InvalidOperationException("Connection string 'ForumContext' not found.")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("ForumContext")
+        ?? throw new InvalidOperationException("Connection string 'ForumContext' not found."),
+        sqlOptions => {
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,               // The maximum number of retry attempts
+                maxRetryDelay: TimeSpan.FromSeconds(30), // The maximum delay between retries
+                errorNumbersToAdd: null         // Optionally, specify additional SQL error numbers that should trigger a retry
+            );
+        }
+    ));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -23,7 +33,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseStaticFiles();
 app.UseAuthorization();
 
 app.MapStaticAssets();
