@@ -1,0 +1,54 @@
+﻿@model AdultGamingForum.Models.Discussion
+@{
+    ViewData["Title"] = "Discussion Details";
+}
+
+<div class="container my-4">
+    <h1>@Model.Title</h1>
+    <p>
+        <small class="text-muted">
+            Posted on @Model.CreateDate.ToString("g") |
+            @Model.Comments.Count() comment(s)
+        </small>
+    </p>
+
+    @if (!string.IsNullOrEmpty(Model.ImageFilename))
+    {
+        <img src="~/uploads/@Model.ImageFilename" alt="@Model.Title" class="img-fluid mb-3" style="max-height:400px; object-fit:cover;" />
+    }
+
+    <div class="mb-4">
+        <p>@Model.Content</p>
+    </div>
+
+    <!-- Link to add a new comment -->
+    <div class="mb-3">
+        <a asp-controller="Comments" asp-action="Create" asp-route-discussionId="@Model.DiscussionId" class="btn btn-success">
+            Add Comment
+        </a>
+    </div>
+
+    <hr />
+
+    <h3>Comments</h3>
+    @if (!Model.Comments.Any())
+    {
+        <p>No comments yet. Be the first to comment!</p>
+    }
+    else
+    {
+        <div class="list-group">
+            @foreach (var comment in Model.Comments.OrderByDescending(c => c.CreateDate))
+            {
+                <div class="list-group-item">
+                    <p>@comment.Content</p>
+                    <small class="text-muted">Posted on: @comment.CreateDate.ToString("g")</small>
+                </div>
+            }
+        </div>
+    }
+
+    <div class="mt-3">
+        <a asp-action="Index" class="btn btn-secondary">Back to Discussions</a>
+    </div>
+</div>

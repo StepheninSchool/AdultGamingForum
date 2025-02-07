@@ -1,17 +1,18 @@
-using System.Diagnostics;
-using AdultGamingForum.Data;
-using AdultGamingForum.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using AdultGamingForum.Data;
+using AdultGamingForum.Models;
+using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AdultGamingForum.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly ForumContext _context;
+        private readonly ILogger<HomeController> _logger;
 
-        // Inject both ILogger and ForumContext via the constructor.
         public HomeController(ILogger<HomeController> logger, ForumContext context)
         {
             _logger = logger;
@@ -19,19 +20,34 @@ namespace AdultGamingForum.Controllers
         }
 
         // GET: Home/Index
-        // This action retrieves all discussions (posts) ordered by creation date in descending order.
+        // Retrieves all discussions ordered by descending CreateDate.
         public async Task<IActionResult> Index()
         {
-            var posts = await _context.Discussions
+            var discussions = await _context.Discussions
                 .OrderByDescending(d => d.CreateDate)
                 .ToListAsync();
-            return View(posts);
+            return View(discussions);
         }
 
-        // GET: Home/Privacy
-        public IActionResult Privacy()
+        // GET: Home/GetDiscussion/1
+        // Retrieves a single discussion (with its comments) by ID.
+        public async Task<IActionResult> GetDiscussion(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var discussion = await _context.Discussions
+                .Include(d => d.Comments)
+                .FirstOrDefaultAsync(d => d.DiscussionId == id);
+
+            if (discussion == null)
+            {
+                return NotFound();
+            }
+
+            return View(discussion);
         }
     }
 }
