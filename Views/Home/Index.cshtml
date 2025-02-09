@@ -7,15 +7,16 @@
     <!-- Welcome Section -->
     <div class="row">
         <div class="col-12 text-center">
-            <h1 class="display-4">Welcome to Adult Gaming Forum</h1>
+            <img src="~/images/placeholder.png" alt="Home Logo" class="home-logo">
+            <h1 class="display-4">Welcome to the <strong>Adult Gaming Forum</strong></h1>
             <p class="lead">
                 Check out <a href="https://opencritic.com/" target="_blank">Open Critic</a> for recent reviews.
             </p>
-            <a asp-controller="Discussions" asp-action="Create" class="btn btn-primary mb-4">Create New</a>
+            <a asp-controller="Discussions" asp-action="Create" class="btn btn-primary mb-4">Create New Discussion</a>
         </div>
     </div>
     <hr />
-
+    
     <!-- Discussions List -->
     <div class="list-group">
         @foreach (var discussion in Model)
@@ -50,10 +51,4 @@
     </div>
 </div>
 
-<!-- Optional inline style for hover effect -->
-<style>
-    .list-group-item:hover {
-        background-color: #f8f9fa;
-        transition: background-color 0.2s ease;
-    }
-</style>
+

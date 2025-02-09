@@ -50,5 +50,10 @@ namespace AdultGamingForum.Controllers
 
             return View(discussion);
         }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
     }
 }

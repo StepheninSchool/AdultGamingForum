@@ -1,47 +1,139 @@
-﻿/* Forum.styles.css */
+﻿/* Forum-Specific Styles */
 
-/* General Body Styling */
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Header and Navigation */
-.navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.nav-link {
-    font-size: 1rem;
-}
-
-/* Container Margins */
-.container {
-    margin-top: 20px;
-}
-
-/* Discussion Item Styling (for list views) */
+/* Discussion List Item */
 .discussion-item {
-    background-color: #ffffff;
+    background-color: #dee2e6;
     border: 1px solid #dee2e6;
     border-radius: 4px;
     padding: 15px;
     margin-bottom: 15px;
+    transition: background-color 0.2s ease-in-out;
 }
 
-    /* Discussion Title Styling */
-    .discussion-item h3 {
-        margin-top: 0;
+    .discussion-item:hover {
+        background-color: #ffe4e1;
     }
 
-/* Form Group Label Styling */
-.form-group label {
-    font-weight: 500;
+    .discussion-item h3 {
+        margin-top: 0;
+        font-size: 1.25rem;
+    }
+
+/* Image Styling */
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
-/* Button Styling */
-.btn-primary {
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #dee2e6;
+}
+
+/* Comment Section */
+.comment-box {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+    .comment-box .comment-meta {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+/* Buttons */
+.btn-forum {
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn-forum-primary {
     background-color: #007bff;
-    border-color: #007bff;
+    color: white;
+    border: none;
+}
+
+    .btn-forum-primary:hover {
+        background-color: #0056b3;
+    }
+
+.btn-forum-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+    .btn-forum-secondary:hover {
+        background-color: #5a6268;
+    }
+
+/* Masonry Grid Layout */
+.masonry-grid {
+    column-count: 3;
+    column-gap: 1.5em;
+}
+
+.masonry-grid-item {
+    display: inline-block;
+    margin: 0 0 2em;
+    width: 100%;
+}
+
+    .masonry-grid-item img:hover {
+        filter: brightness(0.65);
+        cursor: pointer;
+    }
+
+/* Responsive Grid Adjustments */
+@media (max-width: 992px) {
+    .masonry-grid {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .masonry-grid {
+        column-count: 1;
+    }
+}
+
+/* Forum Post Box */
+.forum-post {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .forum-post .post-meta {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+    .forum-post p {
+        font-size: 1rem;
+    }
+
+/* Sticky Navigation for Forum Categories */
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+    z-index: 1000;
+}
+
+.list-group-item:hover {
+    background-color: lightgoldenrodyellow;
+    transition: background-color 0.2s ease; 
 }

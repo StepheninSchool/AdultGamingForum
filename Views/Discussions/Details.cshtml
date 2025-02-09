@@ -12,10 +12,9 @@
 
         @if (!string.IsNullOrEmpty(Model.ImageFilename))
         {
-            <div class="text-center mb-4">
-                <img src="~/images/@Model.ImageFilename" alt="@Model.Title" class="img-fluid rounded" style="max-width: 80%; height: auto; border: 2px solid #ddd; padding: 5px;" />
-            </div>
+            <img src="~/images/@Model.ImageFilename" alt="Discussion Image" class="img-fluid mt-3" style="max-width: 50%; height: auto;" />
         }
+
 
         <p class="lead">@Model.Content</p>
         <small class="text-muted">Created on: @Model.CreateDate.ToString("g")</small>
@@ -61,6 +60,3 @@
         </a>
     </div>
 </div>
-
-<!-- Optional Bootstrap Icons (if needed) -->
-@* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">  *@

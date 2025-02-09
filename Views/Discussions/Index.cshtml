@@ -33,20 +33,19 @@
 
                 @if (!string.IsNullOrEmpty(item.ImageFilename))
                 {
-                    <div class="text-center mb-3">
-                        <img src="~/images/@item.ImageFilename" alt="@item.Title" class="img-fluid rounded shadow-sm" style="max-height: 150px; object-fit: cover;" />
-                    </div>
+                    <img src="~/images/@item.ImageFilename" alt="Discussion Image" class="img-fluid mt-3" style="max-width: 50%; height: auto;" />
                 }
+
 
                 <div class="d-flex justify-content-between">
                     <a asp-action="Details" asp-route-id="@item.DiscussionId" class="btn btn-outline-primary btn-sm">
                         View Discussion
                     </a>
 
-                    @* <div> *@
-                    @*     <a asp-action="Edit" asp-route-id="@item.DiscussionId" class="btn btn-warning btn-sm mx-1">Edit</a> *@
-                    @*     <a asp-action="Delete" asp-route-id="@item.DiscussionId" class="btn btn-danger btn-sm">Delete</a> *@
-                    @* </div> *@
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@item.DiscussionId" class="btn btn-warning btn-sm mx-1">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.DiscussionId" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
                 </div>
             </div>
         }

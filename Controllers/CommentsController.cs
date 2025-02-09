@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using AdultGamingForum.Data;
 using AdultGamingForum.Models;
 
@@ -15,10 +17,36 @@ namespace AdultGamingForum.Controllers
             _context = context;
         }
 
+        // GET: Comments (List All Comments)
+        public async Task<IActionResult> Index()
+        {
+            var comments = await _context.Comments.Include(c => c.Discussion).ToListAsync();
+            return View(comments);
+        }
+
+        // GET: Comments/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var comment = await _context.Comments
+                .Include(c => c.Discussion)
+                .FirstOrDefaultAsync(m => m.CommentId == id);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            return View(comment);
+        }
+
         // GET: Comments/Create?discussionId=1
         public IActionResult Create(int discussionId)
         {
-            // Pass the discussion ID to the view using ViewBag or ViewData.
             ViewBag.DiscussionId = discussionId;
             return View();
         }
@@ -34,12 +62,15 @@ namespace AdultGamingForum.Controllers
                 _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
 
-                // Redirect to the "Get Discussion" page (Details view of DiscussionsController)
                 return RedirectToAction("Details", "Discussions", new { id = comment.DiscussionId });
             }
-            // If ModelState is invalid, reassign the DiscussionId and show the form again.
             ViewBag.DiscussionId = comment.DiscussionId;
             return View(comment);
         }
+
+
+        
+
+        
     }
 }

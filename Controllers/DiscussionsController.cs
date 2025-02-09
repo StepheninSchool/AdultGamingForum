@@ -117,7 +117,10 @@ namespace AdultGamingForum.Controllers
                         return NotFound();
                     }
 
-                    // If a new image is uploaded, replace the old one
+                    // Preserve original CreateDate
+                    discussion.CreateDate = existingDiscussion.CreateDate;
+
+                    // Handle image upload
                     if (ImageFile != null && ImageFile.Length > 0)
                     {
                         var imagesFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
@@ -136,11 +139,10 @@ namespace AdultGamingForum.Controllers
                             await ImageFile.CopyToAsync(fileStream);
                         }
 
-                        discussion.ImageFilename = uniqueFileName; // Update filename
+                        discussion.ImageFilename = uniqueFileName;
                     }
                     else
                     {
-                        // Retain the existing image filename
                         discussion.ImageFilename = existingDiscussion.ImageFilename;
                     }
 
@@ -162,6 +164,7 @@ namespace AdultGamingForum.Controllers
             }
             return View(discussion);
         }
+
 
 
 
@@ -198,10 +201,6 @@ namespace AdultGamingForum.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DiscussionExists(int id)
-        {
-            return _context.Discussions.Any(e => e.DiscussionId == id);
-        }
 
         public async Task<IActionResult> Details(int? id)
         {

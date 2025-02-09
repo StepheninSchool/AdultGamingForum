@@ -1,64 +1,77 @@
-.thumbnail {
-    width: 100px;
-    height: auto;
-}
 
-.profile-pic {
-    width: 150px;
-    height: auto;
-    border-radius: 50%;
-}
-
-/* Home page masonry styles
--------------------------------------------------- */
-.masonry-grid {
-    column-count: 3;
-    column-gap: 1.5em;
-}
-
-.masonry-grid-item {
-    display: inline-block;
-    margin: 0 0 2em;
-    width: 100%;
-}
-
-.masonry-grid-item img:hover {
-    filter: brightness(0.65);
-    cursor: pointer;
-}
-
-/* collapse grid to 2 columns */
-@media (max-width: 992px) {
-    .masonry-grid {
-        column-count: 2;
-    }
-}
-
-/* collapse grid to 1 column */
-@media (max-width: 768px) {
-    .masonry-grid {
-        column-count: 1;
-    }
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
-
+/* site.css - General Styling */
+/* General Body Styling */
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-bottom: 60px; /* Sticky footer margin */
+  }
+
+/* Header and Navigation */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-link {
+    font-size: 1rem;
+   
+}
+
+/* Active Navigation */
+.nav-link.active {
+    font-weight: bold;
+    color: #007bff !important;
+    border-bottom: 2px solid #007bff;
+}
+
+/* Main Container */
+.container {
+    margin-top: 20px;
+}
+
+/* Form Labels */
+.form-group label {
+    font-weight: 500;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/* Sticky Footer */
+html, body {
+    height: 100%;
 }
 
 .footer {
-    position: absolute;
+    
     bottom: 0;
     width: 100%;
-    /* Set the fixed height of the footer here */
     height: 60px;
-    line-height: 60px; /* Vertically center the text there */
+    line-height: 60px;
     background-color: #f5f5f5;
+}
+
+/* Logo Styling */
+.logo-img {
+    width: 50px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Home Page Logo Styling */
+.home-logo {
+    width: 250px;
+    height: auto;
+    margin-bottom: 20px;
+
+
+}
+
+.list-group-item:hover {
+    background-color: #d1ffbd;
+    transition: background-color 0.2s ease;
 }
