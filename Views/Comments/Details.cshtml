@@ -1,36 +1,38 @@
-﻿@model AdultGamingForum.Models.Comment
+﻿@* @model AdultGamingForum.Models.Comment *@
 
-@{
-    ViewData["Title"] = "Details";
-}
+@* @{ *@
+@*     ViewData["Title"] = "Details"; *@
+@* } *@
 
-<h1>Details</h1>
+@* <h1>Details</h1> *@
 
-<div>
-    <h4>Comment</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Discussion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Discussion.DiscussionId)
-        </dd>
-    </dl>
-</div>
-<div>
+@* <div> *@
+@*     <h4>Comment</h4> *@
+@*     <hr /> *@
+@*     <dl class="row"> *@
+@*         <dt class = "col-sm-2"> *@
+@*             @Html.DisplayNameFor(model => model.Content) *@
+@*         </dt> *@
+@*         <dd class = "col-sm-10"> *@
+@*             @Html.DisplayFor(model => model.Content) *@
+@*         </dd> *@
+@*         <dt class = "col-sm-2"> *@
+@*             @Html.DisplayNameFor(model => model.CreateDate) *@
+@*         </dt> *@
+@*         <dd class = "col-sm-10"> *@
+@*             @Html.DisplayFor(model => model.CreateDate) *@
+@*         </dd> *@
+@*         <dt class = "col-sm-2"> *@
+@*             @Html.DisplayNameFor(model => model.Discussion) *@
+@*         </dt> *@
+@*         <dd class = "col-sm-10"> *@
+@*             @Html.DisplayFor(model => model.Discussion.DiscussionId) *@
+@*         </dd> *@
+@*     </dl> *@
+@* </div> *@
+@* <div> *@
     
-    <a asp-action="Index">Back to List</a>
-</div>
+@*     <a asp-controller="Discussions" asp-action="Details" asp-route-id="@Model.Discussion.DiscussionId" class="btn btn-outline-secondary"> *@
+@*         <i class="bi bi-arrow-left-circle"></i> Back to Discussion *@
+@*     </a> *@
+@* </div> *@
