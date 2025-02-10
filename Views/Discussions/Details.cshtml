@@ -12,9 +12,11 @@
 
         @if (!string.IsNullOrEmpty(Model.ImageFilename))
         {
-            <img src="~/images/@Model.ImageFilename" alt="Discussion Image" class="img-fluid mt-3" style="max-width: 50%; height: auto;" />
+            <img src="~/images/@Model.ImageFilename"
+                 alt="Discussion Image"
+                 class="img-fluid mt-3 d-block mx-auto rounded"
+                 style="max-width: 50%; height: auto;" />
         }
-
 
         <p class="lead">@Model.Content</p>
         <small class="text-muted">Created on: @Model.CreateDate.ToString("g")</small>
@@ -22,7 +24,8 @@
 
     <!-- Add Comment Button -->
     <div class="text-end my-4">
-        <a asp-controller="Comments" asp-action="Create" asp-route-discussionId="@Model.DiscussionId" class="btn btn-success btn-lg">
+        <a asp-controller="Comments" asp-action="Create" asp-route-discussionId="@Model.DiscussionId"
+           class="btn btn-success btn-lg">
             <i class="bi bi-chat-left-dots"></i> Add Comment
         </a>
     </div>
@@ -53,9 +56,9 @@
         }
     </div>
 
-    <!-- Back to List Button -->
+    <!-- Back to Discussions Button -->
     <div class="text-center mt-4">
-        <a asp-action="Index" class="btn btn-secondary btn-lg">
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
             <i class="bi bi-arrow-left-circle"></i> Back to Discussions
         </a>
     </div>

@@ -4,48 +4,61 @@
     ViewData["Title"] = "Edit Discussion";
 }
 
-<h1>Edit Discussion</h1>
+<div class="container my-4">
+    <h1 class="text-center mb-4">Edit Discussion</h1>
 
-<div class="row">
-    <div class="col-md-4">
-        <!-- Note: method="post" and enctype="multipart/form-data" are required for file uploads -->
+    <div class="card p-4 shadow-sm">
         <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DiscussionId" />
 
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
+            <!-- Discussion Title -->
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label fw-bold">Title</label>
+                <input asp-for="Title" class="form-control" placeholder="Enter discussion title">
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <textarea asp-for="Content" class="form-control"></textarea>
+            <!-- Discussion Content -->
+            <div class="mb-3">
+                <label asp-for="Content" class="form-label fw-bold">Content</label>
+                <textarea asp-for="Content" class="form-control" rows="5" placeholder="Update discussion content..."></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 
-            <!-- File input for uploading a new image -->
-            <div class="form-group">
-                <label class="control-label">Upload New Image (optional)</label>
-                <input type="file" name="ImageFile" class="form-control" />
+            <!-- Image Upload -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Upload New Image (optional)</label>
+                <input type="file" name="ImageFile" class="form-control">
             </div>
 
-            <!-- Optionally, display the current image if one exists -->
+            <!-- Display Current Image -->
             @if (!string.IsNullOrEmpty(Model.ImageFilename))
             {
-                <img src="~/images/@Model.ImageFilename" alt="@Model.Title" class="img-fluid mt-3" style="max-width: 100%; height: auto;"/>
+                <div class="text-center mt-3">
+                    <p class="text-muted">Current Image:</p>
+                    <img src="~/images/@Model.ImageFilename"
+                         alt="@Model.Title"
+                         class="img-fluid rounded shadow-sm"
+                         style="max-width: 100%; height: auto;">
+                </div>
             }
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <!-- Save Button -->
+            <div class="text-end mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Save Changes
+                </button>
             </div>
         </form>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    <!-- Back to Discussions -->
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left-circle"></i> Back to Discussions
+        </a>
+    </div>
 </div>
 
 @section Scripts {

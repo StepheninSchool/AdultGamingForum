@@ -4,30 +4,37 @@
     ViewData["Title"] = "Add Comment";
 }
 
-<h1>Add Comment</h1>
+<div class="container my-4">
+    <h1 class="text-center mb-4">Add Comment</h1>
 
-<!-- Form to submit a new comment -->
-<form asp-action="Create" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    
-    <!-- Hidden field to store the Discussion ID -->
-    <input type="hidden" asp-for="DiscussionId" value="@ViewBag.DiscussionId" />
-    
-    <div class="form-group">
-        <label asp-for="Content" class="control-label"></label>
-        <!-- Use a multi-line textarea for the comment text -->
-        <textarea asp-for="Content" class="form-control" rows="5"></textarea>
-        <span asp-validation-for="Content" class="text-danger"></span>
-    </div>
-    
-    <div class="form-group">
-        <input type="submit" value="Submit Comment" class="btn btn-primary" />
-    </div>
-</form>
+    <!-- Form to submit a new comment -->
+    <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div>
-    <!-- Link back to the Discussion details page -->
-    <a asp-action="Details" asp-controller="Discussions" asp-route-id="@ViewBag.DiscussionId">Back to Discussion</a>
+        <!-- Hidden field to store the Discussion ID -->
+        <input type="hidden" asp-for="DiscussionId" value="@ViewBag.DiscussionId" />
+
+        <!-- Comment Input -->
+        <div class="form-group mb-3">
+            <label asp-for="Content" class="form-label fw-bold">Comment</label>
+            <textarea asp-for="Content" class="form-control" rows="5" placeholder="Write your comment here..."></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-chat-left-dots"></i> Submit Comment
+            </button>
+        </div>
+    </form>
+
+    <!-- Back to Discussion Link -->
+    <div class="text-center mt-4">
+        <a asp-action="Details" asp-controller="Discussions" asp-route-id="@ViewBag.DiscussionId" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left-circle"></i> Back to Discussion
+        </a>
+    </div>
 </div>
 
 @section Scripts {

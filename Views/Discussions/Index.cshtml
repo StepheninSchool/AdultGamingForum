@@ -1,61 +1,83 @@
 ﻿@model IEnumerable<AdultGamingForum.Models.Discussion>
 
 @{
-    ViewData["Title"] = "Recent Posts";
+    ViewData["Title"] = "Recent Discussions";
+    var sortedDiscussions = Model.OrderByDescending(d => d.CreateDate);
 }
 
 <div class="container my-4">
+    <!-- Page Header -->
     <div class="text-center mb-4">
-        <h1 class="display-4">Recent Posts</h1>
+        <h1 class="display-4">Recent Discussions</h1>
         <p class="lead">Browse discussions and share your thoughts.</p>
-        <a asp-action="Create" class="btn btn-primary btn-lg">Create New</a>
+        <a asp-action="Create" class="btn btn-primary btn-lg">
+            <i class="bi bi-plus-lg"></i> Create New
+        </a>
     </div>
 
+    <!-- Discussions List -->
     <div class="list-group">
-        @foreach (var item in Model)
+        @foreach (var discussion in sortedDiscussions)
         {
+            var latestComment = discussion.Comments.OrderByDescending(c => c.CreateDate).FirstOrDefault();
+
             <div class="list-group-item list-group-item-action flex-column align-items-start p-3 shadow-sm rounded mb-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-1">@item.Title</h5>
-                    <small class="text-muted">@item.CreateDate.ToString("g")</small>
+                    <h5 class="mb-1">
+                        <a asp-action="Details" asp-route-id="@discussion.DiscussionId" class="text-decoration-none text-dark">
+                            @discussion.Title
+                        </a>
+                    </h5>
+                    <small class="text-muted">@discussion.CreateDate.ToString("g")</small>
                 </div>
 
+                <!-- Discussion Content Preview -->
                 <p class="mb-2 text-muted">
-                    @if (item.Content.Length > 100)
+                    @if (discussion.Content.Length > 100)
                     {
-                        @(item.Content.Substring(0, 100) + "...")
+                        @(discussion.Content.Substring(0, 100) + "...")
                     }
                     else
                     {
-                        @item.Content
+                        @discussion.Content
                     }
                 </p>
 
-                @if (!string.IsNullOrEmpty(item.ImageFilename))
+                <!-- Most Recent Comment -->
+                @if (latestComment != null)
                 {
-                    <img src="~/images/@item.ImageFilename" alt="Discussion Image" class="img-fluid mt-3" style="max-width: 50%; height: auto;" />
+                    <div class="border-start ps-3 mt-2">
+                        <p class="text-muted mb-1"><strong>Latest Comment:</strong></p>
+                        <p class="small text-muted">@latestComment.Content</p>
+                        <small class="text-muted">Posted on @latestComment.CreateDate.ToString("g")</small>
+                    </div>
                 }
 
+                <!-- Discussion Image -->
+                @if (!string.IsNullOrEmpty(discussion.ImageFilename))
+                {
+                    <img src="~/images/@discussion.ImageFilename"
+                         alt="Discussion Image"
+                         class="img-fluid mt-3 rounded"
+                         style="max-width: 50%; height: auto;" />
+                }
 
-                <div class="d-flex justify-content-between">
-                    <a asp-action="Details" asp-route-id="@item.DiscussionId" class="btn btn-outline-primary btn-sm">
-                        View Discussion
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <a asp-action="Details" asp-route-id="@discussion.DiscussionId" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-eye"></i> View Discussion
                     </a>
 
                     <div>
-                        <a asp-action="Edit" asp-route-id="@item.DiscussionId" class="btn btn-warning btn-sm mx-1">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.DiscussionId" class="btn btn-danger btn-sm">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@discussion.DiscussionId" class="btn btn-warning btn-sm mx-1">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@discussion.DiscussionId" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
-
-<!-- Optional inline CSS for hover effect -->
-<style>
-    .list-group-item:hover {
-        background-color: #f8f9fa;
-        transition: background-color 0.2s ease;
-    }
-</style>

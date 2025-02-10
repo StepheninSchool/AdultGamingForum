@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<AdultGamingForum.Models.Discussion>
+
 @{
     ViewData["Title"] = "Recent Discussions";
 }
@@ -12,30 +13,31 @@
             <p class="lead">
                 Check out <a href="https://opencritic.com/" target="_blank">Open Critic</a> for recent reviews.
             </p>
-            <a asp-controller="Discussions" asp-action="Create" class="btn btn-primary mb-4">Create New Discussion</a>
+            <a asp-controller="Discussions" asp-action="Create" class="btn btn-primary mb-4">
+                <i class="bi bi-plus-lg"></i> Create New Discussion
+            </a>
         </div>
     </div>
+
     <hr />
-    
+
     <!-- Discussions List -->
     <div class="list-group">
         @foreach (var discussion in Model)
         {
-            <div class="list-group-item d-flex align-items-center">
-                <div class="mr-3">
-                    @if (!string.IsNullOrEmpty(discussion.ImageFilename))
-                    {
-                        <img src="~/images/@discussion.ImageFilename" alt="@discussion.Title" class="img-thumbnail" style="width:100px; height:100px; object-fit:contain;" />
-                    }
-                    else
-                    {
-                        <img src="~/images/placeholder.png" alt="No Image" class="img-thumbnail" style="width:100px; height:100px; object-fit:contain;" />
-                    }
-                    
+            <div class="list-group-item d-flex align-items-center p-3 shadow-sm rounded mb-2">
+                <!-- Discussion Image -->
+                <div class="me-3">
+                    <img src="~/images/@(string.IsNullOrEmpty(discussion.ImageFilename) ? "placeholder.png" : discussion.ImageFilename)"
+                         alt="@discussion.Title"
+                         class="img-thumbnail rounded"
+                         style="width: 100px; height: 100px; object-fit: contain;">
                 </div>
-                <div class="flex-grow-1 ml-3">
-                    <h4>
-                        <a asp-action="GetDiscussion" asp-route-id="@discussion.DiscussionId" class="text-decoration-none">
+
+                <!-- Discussion Content -->
+                <div class="flex-grow-1">
+                    <h4 class="mb-1">
+                        <a asp-action="GetDiscussion" asp-route-id="@discussion.DiscussionId" class="text-decoration-none text-dark">
                             @discussion.Title
                         </a>
                     </h4>
@@ -50,5 +52,3 @@
         }
     </div>
 </div>
-
-
