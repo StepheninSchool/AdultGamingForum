@@ -41,6 +41,16 @@
 
 .comment-box {
     margin-bottom: 10px;
+    font-family: "Arial", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: pre-wrap; /* Preserves newlines */
+    word-wrap: break-word;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    min-height: 150px;
 }
 
     .comment-box .comment-meta {
