@@ -17,7 +17,7 @@
                  class="img-fluid mt-3 d-block mx-auto rounded"
                  style="max-width: 50%; height: auto;" />
         }
-        <!-- Convert newline characters in the comment to HTML <br> tags for proper formatting. -->
+        <!-- Convert newline characters in the comment to HTML <br> tags for better formatting. -->
         <p class="lead">@Html.Raw(Model.Content.Replace("\n", "<br />"))</p>
         <small class="text-muted">Created on: @Model.CreateDate.ToString("g")</small>
     </div>
