@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using AdultGamingForum.Data;
 using AdultGamingForum.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ForumContext>(options =>
@@ -16,6 +17,8 @@ builder.Services.AddDbContext<ForumContext>(options =>
             );
         }
     ));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ForumContext>();
 
 
 // Add services to the container.

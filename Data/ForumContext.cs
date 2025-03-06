@@ -1,10 +1,11 @@
 ﻿using AdultGamingForum.Models;
 using AdultGamingForum.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdultGamingForum.Data
 {
-    public class ForumContext : DbContext
+    public class ForumContext : IdentityDbContext
     {
         public ForumContext(DbContextOptions<ForumContext> options)
             : base(options)
