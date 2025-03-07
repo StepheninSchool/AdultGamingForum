@@ -5,6 +5,7 @@ using AdultGamingForum.Models;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddDbContext<ForumContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("ForumContext")
@@ -17,8 +18,8 @@ builder.Services.AddDbContext<ForumContext>(options =>
             );
         }
     ));
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ForumContext>();
+// updated to use the new Identity scaffolding. 9:37pm 3/6/2025
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ForumContext>();
 
 
 // Add services to the container.
@@ -45,6 +46,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
+// Identity requires the following routes for login, logout, etc.
+app.MapRazorPages().WithStaticAssets();
 
 app.Run();
