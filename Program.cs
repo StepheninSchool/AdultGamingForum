@@ -19,7 +19,7 @@ builder.Services.AddDbContext<ForumContext>(options =>
         }
     ));
 // updated to use the new Identity scaffolding. 9:37pm 3/6/2025
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ForumContext>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ForumContext>();
 
 
 // Add services to the container.

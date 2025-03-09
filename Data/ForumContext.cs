@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdultGamingForum.Data
 {
-    public class ForumContext : IdentityDbContext
+    // use custom applicationUser
+    public class ForumContext : IdentityDbContext<ApplicationUser>
     {
         public ForumContext(DbContextOptions<ForumContext> options)
             : base(options)
