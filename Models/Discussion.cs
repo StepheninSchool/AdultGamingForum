@@ -1,4 +1,5 @@
 ﻿using AdultGamingForum.Data;
+#nullable disable
 
 namespace AdultGamingForum.Models
 {

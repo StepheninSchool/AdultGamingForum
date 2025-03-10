@@ -1,4 +1,80 @@
-﻿<!DOCTYPE html>
+﻿@* <!DOCTYPE html> *@
+@* <html lang="en"> *@
+@* <head> *@
+@*     <meta charset="utf-8" /> *@
+@*     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> *@
+@*     <title>@ViewData["Title"] - AdultGamingForum</title> *@
+
+@*     <!-- Bootstrap & Styles --> *@
+@*     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+@*     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
+@*     <link rel="stylesheet" href="~/css/forum.styles.css" asp-append-version="true" /> *@
+@*     <!--tried to install bootstrap icons to project but couldn't figure it out--> *@
+@*     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" /> *@
+@*     <!--font awesome cdn--> *@
+@*     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> *@
+@* </head> *@
+@* <body class="d-flex flex-column min-vh-100"> *@
+@*     <header> *@
+@*         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm mb-3"> *@
+@*             <div class="container-fluid d-flex align-items-center"> *@
+@*                 <!-- Logo --> *@
+@*                 <a class="navbar-brand" asp-controller="Home" asp-action="Index"> *@
+@*                     <img src="~/images/placeholder.png" alt="Logo" class="logo-img me-2" /> *@
+@*                     <i class="fa-solid fa-house"></i> *@
+@*                 </a> *@
+
+@*                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" *@
+@*                         aria-expanded="false" aria-label="Toggle navigation"> *@
+@*                     <span class="navbar-toggler-icon"></span> *@
+@*                 </button> *@
+
+@*                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between"> *@
+@*                     <ul class="navbar-nav flex-grow-1"> *@
+@*                         @* <li class="nav-item"> *@ 
+@*                         @*     <!-- ADDED  ?. to safely handle the case where ViewContext.RouteData.Values["controller"] is null. Couldn't access identity routes without. 9:46pm 3/6/25 --> *@ 
+@*                         @*     <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" *@ 
+@*                         @*        asp-controller="Home" asp-action="Index">Home</a> *@ 
+@*                         @* </li> *@ 
+@*                         @* <li class="nav-item"> *@ 
+@*                         @*     <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Discussions" ? "active" : "")" *@ 
+@*                         @*        asp-controller="Discussions" asp-action="Index">Discussions</a> *@ 
+@*                         @* </li> *@ 
+@*                     </ul> *@
+@*                     <!-- Login Partial added during scaffolding 7:44pm 3/6/2025 --> *@
+@*                     <partial name="_LoginPartial"/> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </nav> *@
+@*     </header> *@
+
+@*     <div class="container flex-grow-1"> *@
+@*         <main role="main" class="pb-3"> *@
+@*             @RenderBody() *@
+@*         </main> *@
+@*     </div> *@
+
+@*     <footer class="border-top footer text-muted mt-auto"> *@
+@*         <div class="container text-center"> *@
+@*             &copy; @DateTime.Now.Year - AdultGamingForum - *@
+@*             <a asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+@*         </div> *@
+@*     </footer> *@
+
+@*     <!-- Scripts --> *@
+@*     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+@*     <script src="~/js/site.js" asp-append-version="true"></script> *@
+@*     <script src="https://cdn.tiny.cloud/1/tu11o2zjdwumgle07em91mcb0xgl87at11q7mfrq2k9svsno/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script> *@
+
+
+
+
+@*     @await RenderSectionAsync("Scripts", required: false) *@
+@* </body> *@
+@* </html> *@
+
+@* <!-- TinyMCE Initialization --> *@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,10 +85,37 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/forum.styles.css" asp-append-version="true" />
-    <!--tried to install bootstrap icons to project but couldn't figure it out-->
+
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
-    <!--font awesome cdn-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- TinyMCE (Global Initialization) -->
+    <script src="https://cdn.tiny.cloud/1/tu11o2zjdwumgle07em91mcb0xgl87at11q7mfrq2k9svsno/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            tinymce.init({
+                selector: 'textarea', // Applies to all textareas globally
+                plugins: 'autolink link lists image media table emoticons',
+                toolbar: 'bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media',
+                menubar: false,
+                branding: false,
+                height: 300,
+                automatic_uploads: true,
+                link_assume_external_targets: true, // Auto-links URLs
+                convert_urls: false, // Prevents TinyMCE from modifying URLs
+                valid_elements: '*[*]', // Ensures all HTML elements are stored
+                force_br_newlines: true,
+                statusbar: false
+            });
+        });
+    </script>
+
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
@@ -31,18 +134,18 @@
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @* <li class="nav-item"> *@
-                        @*     <!-- ADDED  ?. to safely handle the case where ViewContext.RouteData.Values["controller"] is null. Couldn't access identity routes without. 9:46pm 3/6/25 --> *@
-                        @*     <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" *@
-                        @*        asp-controller="Home" asp-action="Index">Home</a> *@
-                        @* </li> *@
-                        @* <li class="nav-item"> *@
-                        @*     <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Discussions" ? "active" : "")" *@
-                        @*        asp-controller="Discussions" asp-action="Index">Discussions</a> *@
-                        @* </li> *@
+                        @* Uncomment if needed *@
+                        @* <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
+                                   asp-controller="Home" asp-action="Index">Home</a>
+                           </li> *@
+                        @* <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Discussions" ? "active" : "")"
+                                   asp-controller="Discussions" asp-action="Index">Discussions</a>
+                           </li> *@
                     </ul>
-                    <!-- Login Partial added during scaffolding 7:44pm 3/6/2025 -->
-                    <partial name="_LoginPartial"/>
+                    <!-- Login Partial -->
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>

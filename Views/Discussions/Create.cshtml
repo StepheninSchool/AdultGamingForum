@@ -18,10 +18,10 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
 
-            <!-- Discussion Content -->
+            <!-- Discussion Content (TinyMCE Applied Globally) -->
             <div class="mb-3">
                 <label asp-for="Content" class="form-label fw-bold">Content</label>
-                <textarea asp-for="Content" class="form-control" rows="5" placeholder="Write your discussion content here..."></textarea>
+                <textarea asp-for="Content" class="form-control"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 
@@ -34,7 +34,7 @@
             <!-- Submit Button -->
             <div class="text-end">
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-plus-lg"></i> Create
+                    <i class="fa-solid fa-plus"></i> Create
                 </button>
             </div>
         </form>
@@ -43,7 +43,7 @@
     <!-- Back to Discussions -->
     <div class="text-center mt-4">
         <a asp-action="Index" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left-circle"></i> Back to Discussions
+            <i class="fa-solid fa-arrow-left"></i> Back to Discussions
         </a>
     </div>
 </div>

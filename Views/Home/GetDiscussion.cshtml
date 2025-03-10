@@ -4,17 +4,15 @@
     var sortedComments = Model.Comments.OrderByDescending(c => c.CreateDate);
 }
 
-<!--put behind if statement to fix flag-->
+<!-- Ensuring ApplicationUser is not null before displaying -->
 @if (Model.ApplicationUser != null)
 {
-<div>
-
     <div>
-        @Model.ApplicationUser.Name
+        <div>
+            <strong>Posted by:</strong> @Model.ApplicationUser.Name
+        </div>
     </div>
-</div>
 }
-<
 
 <div class="container my-4">
     <!-- Discussion Card -->
@@ -24,18 +22,24 @@
         @if (!string.IsNullOrEmpty(Model.ImageFilename))
         {
             <div class="text-center">
-                <img src="~/images/@Model.ImageFilename" alt="Discussion Image" class="img-fluid mt-3 rounded shadow-sm border"
+                <img src="~/images/@Model.ImageFilename" alt="Discussion Image"
+                     class="img-fluid mt-3 rounded shadow-sm border"
                      style="max-width: 60%; height: auto;" />
             </div>
         }
 
-        <p class="lead mt-3">@Model.Content</p>
+        <!-- Switched to Html.Raw for proper formatting 2:06pm 3/10/25 -->
+        <div class="mt-3 discussion-content">
+            @Html.Raw(Model.Content)
+        </div>
+
         <small class="text-muted"><i class="fa-regular fa-calendar"></i> Created on: @Model.CreateDate.ToString("g")</small>
     </div>
 
     <!-- Add Comment Button -->
     <div class="text-end my-4">
-        <a asp-controller="Comments" asp-action="Create" asp-route-discussionId="@Model.DiscussionId" class="btn btn-success btn-lg">
+        <a asp-controller="Comments" asp-action="Create" asp-route-discussionId="@Model.DiscussionId"
+           class="btn btn-success btn-lg">
             <i class="fa-solid fa-comment-dots"></i> Add Comment
         </a>
     </div>
@@ -56,9 +60,15 @@
             {
                 <div class="card mb-3 border-0 shadow-sm">
                     <div class="card-body">
-                        <p class="card-text"><i class="fa-solid fa-quote-left text-primary"></i> @comment.Content</p>
+                        <!-- Render TinyMCE-formatted comment content properly -->
+                        <div class="comment-content">
+                           @Html.Raw(comment.Content)
+                        </div>
+
                         <p class="card-text text-end">
-                            <small class="text-muted"><i class="fa-regular fa-clock"></i> Posted on @comment.CreateDate.ToString("g")</small>
+                            <small class="text-muted">
+                                <i class="fa-regular fa-clock"></i> Posted on @comment.CreateDate.ToString("g")
+                            </small>
                         </p>
                     </div>
                 </div>

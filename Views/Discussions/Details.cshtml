@@ -17,12 +17,13 @@
                  class="img-fluid mt-3 d-block mx-auto rounded"
                  style="max-width: 50%; height: auto;" />
         }
-        <!-- Convert newline characters in the comment to HTML <br> tags for better formatting. -->
-        <p class="lead">@Html.Raw(Model.Content.Replace("\n", "<br />"))</p>
+
+        <!-- EDIT: changed previous implementation of newline characters and implemented TinyMCE 1:11pm 3/10/25 -->
+        <p>@Html.Raw(Model.Content)</p>
         <small class="text-muted">Created on: @Model.CreateDate.ToString("g")</small>
     </div>
 
-    <!-- Removed "Add Comment" Button from Details screen as suggested.-->
+    <!-- Removed "Add Comment" Button from Details screen as suggested. -->
     @* <div class="text-end my-4"> *@
     @*     <a asp-controller="Comments" asp-action="Create" asp-route-discussionId="@Model.DiscussionId" *@
     @*        class="btn btn-success btn-lg"> *@
@@ -46,7 +47,11 @@
             {
                 <div class="card mb-3 border-0 shadow-sm">
                     <div class="card-body">
-                        <p class="card-text">@comment.Content</p>
+                        <!-- EDIT: changed previous implementation to render TinyMCE-formatted content 1:45pm 3/10/25 -->
+                        <div class="comment-content">
+                            @Html.Raw(comment.Content)
+                        </div>
+
                         <p class="card-text text-end">
                             <small class="text-muted">Posted on @comment.CreateDate.ToString("g")</small>
                         </p>

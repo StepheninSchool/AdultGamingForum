@@ -20,9 +20,10 @@
             </div>
 
             <!-- Discussion Content -->
+            <!-- TinyMCE Text Area -->
             <div class="mb-3">
                 <label asp-for="Content" class="form-label fw-bold">Content</label>
-                <textarea asp-for="Content" class="form-control" rows="5" placeholder="Update discussion content..."></textarea>
+                <textarea id="discussionContent" asp-for="Content" class="form-control"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<AdultGamingForum.Models.Discussion>
+﻿@using System.Text.RegularExpressions
+
+@model IEnumerable<AdultGamingForum.Models.Discussion>
 
 @{
     ViewData["Title"] = "Recent Discussions";
@@ -32,23 +34,18 @@
                 </div>
 
                 <!-- Discussion Content Preview -->
-                <p class="mb-2 text-muted">
-                    @if (discussion.Content.Length > 100)
-                    {
-                        @(discussion.Content.Substring(0, 100) + "...")
-                    }
-                    else
-                    {
-                        @discussion.Content
-                    }
-                </p>
+                @{
+                    var plainTextContent = Regex.Replace(discussion.Content ?? "", "<.*?>", ""); // Ensure it's not null & strip HTML
+                    var truncatedContent = plainTextContent.Length > 100 ? plainTextContent.Substring(0, 100) + "..." : plainTextContent;
+                }
+                <p class="mb-2 text-muted">@Html.Raw(truncatedContent)</p>
 
                 <!-- Most Recent Comment -->
                 @if (latestComment != null)
                 {
                     <div class="border-start ps-3 mt-2">
                         <p class="text-muted mb-1"><strong><i class="fa-solid fa-reply"></i> Latest Comment:</strong></p>
-                        <p class="small text-muted">@latestComment.Content</p>
+                        <p class="small text-muted">@Html.Raw(latestComment.Content)</p>
                         <small class="text-muted"><i class="fa-regular fa-clock"></i> @latestComment.CreateDate.ToString("g")</small>
                     </div>
                 }

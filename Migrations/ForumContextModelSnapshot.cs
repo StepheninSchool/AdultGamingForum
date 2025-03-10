@@ -126,7 +126,7 @@ namespace AdultGamingForum.Migrations
 
                     b.HasIndex("DiscussionId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("AdultGamingForum.Models.Discussion", b =>
@@ -136,6 +136,10 @@ namespace AdultGamingForum.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscussionId"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -154,7 +158,9 @@ namespace AdultGamingForum.Migrations
 
                     b.HasKey("DiscussionId");
 
-                    b.ToTable("Discussions", (string)null);
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Discussions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -303,6 +309,17 @@ namespace AdultGamingForum.Migrations
                         .IsRequired();
 
                     b.Navigation("Discussion");
+                });
+
+            modelBuilder.Entity("AdultGamingForum.Models.Discussion", b =>
+                {
+                    b.HasOne("AdultGamingForum.Data.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
