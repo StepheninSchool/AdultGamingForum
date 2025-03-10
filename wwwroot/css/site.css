@@ -99,16 +99,17 @@ body {
 html, body { height: 100%; }
 
 .footer {
-    background-color: #ffffff;
-    border-top: 1px solid #ddd;
-    bottom: 0;
-    color: #555;
-    font-size: 0.9rem;
-    height: 60px;
-    line-height: 60px;
+    background-color: lightgray; /* Dark background */
+    border-top: 1px solid #444; /* Darker border */
+    color: #f8f9fa; /* Light text for contrast */
     text-align: center;
+    padding: 15px 0; /* Adjusts spacing without fixed height */
+    font-size: 0.9rem;
     width: 100%;
+
+   
 }
+
 
 /* Logo Styling */
 
