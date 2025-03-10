@@ -126,7 +126,7 @@ namespace AdultGamingForum.Migrations
 
                     b.HasIndex("DiscussionId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("AdultGamingForum.Models.Discussion", b =>
@@ -154,7 +154,7 @@ namespace AdultGamingForum.Migrations
 
                     b.HasKey("DiscussionId");
 
-                    b.ToTable("Discussions");
+                    b.ToTable("Discussions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -1,4 +1,6 @@
-﻿namespace AdultGamingForum.Models
+﻿using AdultGamingForum.Data;
+
+namespace AdultGamingForum.Models
 {
     public class Discussion
     {
@@ -12,5 +14,12 @@
         public DateTime CreateDate { get; set; }
 
         public List<Comment> Comments { get; set; } = new List<Comment>();
+
+        // Foreign key (AspNetUsers table)
+        public string ApplicationUserId { get; set; } = string.Empty;
+
+        // Navigation property
+        public ApplicationUser? ApplicationUser { get; set; } // nullable!!!
+
     }
 }

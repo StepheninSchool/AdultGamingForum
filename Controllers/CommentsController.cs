@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AdultGamingForum.Data;
 using AdultGamingForum.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdultGamingForum.Controllers
 {
+    [Authorize]
     public class CommentsController : Controller
     {
         private readonly ForumContext _context;

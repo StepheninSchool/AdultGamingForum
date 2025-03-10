@@ -9,25 +9,34 @@ using AdultGamingForum.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace AdultGamingForum.Controllers
 {
+    [Authorize]
     public class DiscussionsController : Controller
     {
         private readonly ForumContext _context;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         // Inject both ForumContext and IWebHostEnvironment into the constructor.
-        public DiscussionsController(ForumContext context, IWebHostEnvironment hostingEnvironment)
+        public DiscussionsController(ForumContext context, IWebHostEnvironment hostingEnvironment, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
+            _userManager = userManager;
         }
 
         // GET: Discussions/Index
         public async Task<IActionResult> Index()
+
         {
-            var discussions = await _context.Discussions.ToListAsync();
+            var userId = _userManager.GetUserId(User);
+            var discussions = await _context.Discussions
+                .Where(d => d.ApplicationUserId == userId)
+                .ToListAsync();
             return View(discussions);
         }
 
@@ -42,6 +51,10 @@ namespace AdultGamingForum.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Content")] Discussion discussion, IFormFile? ImageFile)
         {
+            // Set the logged in user
+            discussion.ApplicationUserId = _userManager.GetUserId(User);
+
+
             if (ModelState.IsValid)
             {
                 discussion.CreateDate = DateTime.Now;
