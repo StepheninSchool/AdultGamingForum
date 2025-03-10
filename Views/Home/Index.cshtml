@@ -1,19 +1,19 @@
 ﻿@model IEnumerable<AdultGamingForum.Models.Discussion>
 
 @{
-    ViewData["Title"] = "Recent Discussions";
+    ViewData["Title"] = "Re Discussions";
 }
 
-<div class="container my-4">
+<div class="container my-4 mt-0">
     <!-- Welcome Section -->
     <div class="row">
         <div class="col-12 text-center">
-            <img src="~/images/placeholder.png" alt="Home Logo" class="home-logo rounded shadow-sm mb-3">
+            <img src="~/images/placeholder.png" alt="Home Logo" class="home-logo mb-3">
             <h1 class="display-4"><i class="fa-solid fa-gamepad"></i> Welcome to the <strong>Adult Gaming Forum</strong></h1>
             <p class="lead">
                 Check out <a href="https://opencritic.com/" target="_blank"><i class="fa-solid fa-star"></i> Open Critic</a> for recent reviews.
             </p>
-            <a asp-controller="Discussions" asp-action="Create" class="btn btn-primary mb-4">
+            <a asp-controller="Discussions" asp-action="Create" class="btn btn-primary mb-2">
                 <i class="fa-solid fa-plus"></i> Create New Discussion
             </a>
         </div>

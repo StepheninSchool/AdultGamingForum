@@ -41,6 +41,7 @@ namespace AdultGamingForum.Controllers
             }
 
             var discussion = await _context.Discussions
+                .Include(d => d.ApplicationUser)
                 .Include(d => d.Comments)
                 .FirstOrDefaultAsync(d => d.DiscussionId == id);
 

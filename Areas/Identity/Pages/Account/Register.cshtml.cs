@@ -75,13 +75,13 @@ namespace AdultGamingForum.Areas.Identity.Pages.Account
             /// BEGIN CHANGES
             /// 
             [Required]
-            [Display(Name = "Name")]
+            [Display(Name = "Dispaly Name")]
             public string Name { get; set; } = string.Empty;
 
             [Display(Name = "Bio")]
             public string Bio { get; set; } = string.Empty;
 
-            [Display(Name = "Location")]
+            
             public string Location { get; set; } = string.Empty;
 
             [Display(Name = "Favorite Game")]
@@ -152,7 +152,12 @@ namespace AdultGamingForum.Areas.Identity.Pages.Account
                 user.Bio = Input.Bio;
                 user.Location = Input.Location;
                 user.FavoriteGame = Input.FavoriteGame;
-                //
+
+
+                //TODO: Save the image file to the wwwroot/images folder and set the ImageFileName property to the file name
+
+
+
                 //END CHANGES
                 //
 

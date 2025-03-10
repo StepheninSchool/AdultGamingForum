@@ -4,6 +4,18 @@
     var sortedComments = Model.Comments.OrderByDescending(c => c.CreateDate);
 }
 
+<!--put behind if statement to fix flag-->
+@if (Model.ApplicationUser != null)
+{
+<div>
+
+    <div>
+        @Model.ApplicationUser.Name
+    </div>
+</div>
+}
+<
+
 <div class="container my-4">
     <!-- Discussion Card -->
     <div class="card shadow-lg p-4">

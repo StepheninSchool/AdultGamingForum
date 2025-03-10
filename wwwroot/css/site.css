@@ -8,8 +8,9 @@ body {
 /* Navigation Bar */
 
 .navbar {
-    background-color: #ffffff;
+    background-color: lightgray;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+
 }
 
 .navbar-brand {

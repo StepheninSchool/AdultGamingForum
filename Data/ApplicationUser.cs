@@ -20,9 +20,7 @@ namespace AdultGamingForum.Data
         [PersonalData]
         public string FavoriteGame { get; set; } = string.Empty;
 
-        [NotMapped]
-        public IFormFile? ImageFile { get; set; }
-
-        public string? ImageFilename { get; set; }
+        [PersonalData]
+        public string? ImageFilename { get; set; } = string.Empty;
     }
 }
