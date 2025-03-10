@@ -8,13 +8,13 @@
     <!-- Welcome Section -->
     <div class="row">
         <div class="col-12 text-center">
-            <img src="~/images/placeholder.png" alt="Home Logo" class="home-logo">
-            <h1 class="display-4">Welcome to the <strong>Adult Gaming Forum</strong></h1>
+            <img src="~/images/placeholder.png" alt="Home Logo" class="home-logo rounded shadow-sm mb-3">
+            <h1 class="display-4"><i class="fa-solid fa-gamepad"></i> Welcome to the <strong>Adult Gaming Forum</strong></h1>
             <p class="lead">
-                Check out <a href="https://opencritic.com/" target="_blank">Open Critic</a> for recent reviews.
+                Check out <a href="https://opencritic.com/" target="_blank"><i class="fa-solid fa-star"></i> Open Critic</a> for recent reviews.
             </p>
             <a asp-controller="Discussions" asp-action="Create" class="btn btn-primary mb-4">
-                <i class="bi bi-plus-lg"></i> Create New Discussion
+                <i class="fa-solid fa-plus"></i> Create New Discussion
             </a>
         </div>
     </div>
@@ -25,26 +25,26 @@
     <div class="list-group">
         @foreach (var discussion in Model)
         {
-            <div class="list-group-item d-flex align-items-center p-3 shadow-sm rounded mb-2">
+            <div class="list-group-item d-flex align-items-center p-3 shadow-sm rounded mb-3 border border-light">
                 <!-- Discussion Image -->
                 <div class="me-3">
                     <img src="~/images/@(string.IsNullOrEmpty(discussion.ImageFilename) ? "placeholder.png" : discussion.ImageFilename)"
                          alt="@discussion.Title"
-                         class="img-thumbnail rounded"
-                         style="width: 100px; height: 100px; object-fit: contain;">
+                         class="img-thumbnail rounded shadow-sm border"
+                         style="width: 100px; height: 100px; object-fit: cover;">
                 </div>
 
                 <!-- Discussion Content -->
                 <div class="flex-grow-1">
                     <h4 class="mb-1">
-                        <a asp-action="GetDiscussion" asp-route-id="@discussion.DiscussionId" class="text-decoration-none text-dark">
-                            @discussion.Title
+                        <a asp-action="GetDiscussion" asp-route-id="@discussion.DiscussionId" class="text-decoration-none text-dark fw-bold">
+                            <i class="fa-solid fa-comments"></i> @discussion.Title
                         </a>
                     </h4>
-                    <p class="mb-0">
-                        <small class="text-muted">
-                            Posted on @discussion.CreateDate.ToString("g") |
-                            @discussion.Comments.Count() comment(s)
+                    <p class="mb-0 text-muted">
+                        <small>
+                            <i class="fa-regular fa-calendar"></i> Posted on @discussion.CreateDate.ToString("g") |
+                            <i class="fa-solid fa-comment"></i> @discussion.Comments.Count() comment(s)
                         </small>
                     </p>
                 </div>

@@ -7,32 +7,35 @@
 <div class="container my-4">
     <!-- Discussion Card -->
     <div class="card shadow-lg p-4">
-        <h1 class="text-center mb-3">@Model.Title</h1>
+        <h1 class="text-center mb-3"><i class="fa-solid fa-comments"></i> @Model.Title</h1>
 
         @if (!string.IsNullOrEmpty(Model.ImageFilename))
         {
-            <img src="~/images/@Model.ImageFilename" alt="Discussion Image" class="img-fluid mt-3" style="max-width: 50%; height: auto;" />
+            <div class="text-center">
+                <img src="~/images/@Model.ImageFilename" alt="Discussion Image" class="img-fluid mt-3 rounded shadow-sm border"
+                     style="max-width: 60%; height: auto;" />
+            </div>
         }
 
-        <p class="lead">@Model.Content</p>
-        <small class="text-muted">Created on: @Model.CreateDate.ToString("g")</small>
+        <p class="lead mt-3">@Model.Content</p>
+        <small class="text-muted"><i class="fa-regular fa-calendar"></i> Created on: @Model.CreateDate.ToString("g")</small>
     </div>
 
     <!-- Add Comment Button -->
     <div class="text-end my-4">
         <a asp-controller="Comments" asp-action="Create" asp-route-discussionId="@Model.DiscussionId" class="btn btn-success btn-lg">
-            <i class="bi bi-chat-left-dots"></i> Add Comment
+            <i class="fa-solid fa-comment-dots"></i> Add Comment
         </a>
     </div>
 
     <!-- Comments Section -->
     <div class="mt-4">
-        <h3 class="border-bottom pb-2 mb-3">Comments</h3>
+        <h3 class="border-bottom pb-2 mb-3"><i class="fa-solid fa-comments"></i> Comments</h3>
 
         @if (!sortedComments.Any())
         {
             <div class="alert alert-info text-center" role="alert">
-                No comments yet. Be the first to comment!
+                <i class="fa-regular fa-comment-slash"></i> No comments yet. Be the first to comment!
             </div>
         }
         else
@@ -41,9 +44,9 @@
             {
                 <div class="card mb-3 border-0 shadow-sm">
                     <div class="card-body">
-                        <p class="card-text">@comment.Content</p>
+                        <p class="card-text"><i class="fa-solid fa-quote-left text-primary"></i> @comment.Content</p>
                         <p class="card-text text-end">
-                            <small class="text-muted">Posted on @comment.CreateDate.ToString("g")</small>
+                            <small class="text-muted"><i class="fa-regular fa-clock"></i> Posted on @comment.CreateDate.ToString("g")</small>
                         </p>
                     </div>
                 </div>
@@ -54,9 +57,7 @@
     <!-- Back to List Button -->
     <div class="text-center mt-4">
         <a asp-action="Index" class="btn btn-secondary btn-sm">
-            <i class="bi bi-arrow-left-circle"></i> Back to Discussions
+            <i class="fa-solid fa-arrow-left"></i> Back to Discussions
         </a>
     </div>
 </div>
-
-
