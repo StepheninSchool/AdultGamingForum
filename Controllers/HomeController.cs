@@ -27,6 +27,7 @@ namespace AdultGamingForum.Controllers
                 .OrderByDescending(d => d.CreateDate)
                 .Include(d => d.Comments)
                 .ToListAsync();
+
             return View(discussions);
         }
 

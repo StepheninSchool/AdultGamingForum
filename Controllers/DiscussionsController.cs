@@ -102,8 +102,11 @@ namespace AdultGamingForum.Controllers
             {
                 return NotFound();
             }
+            // Only allow the user who created the discussion to edit it 12:03am 3/10/25
+            var discussion = await _context.Discussions
+                .Where(d => d.ApplicationUserId == _userManager.GetUserId(User))
+                .FirstOrDefaultAsync(d => d.DiscussionId == id);
 
-            var discussion = await _context.Discussions.FindAsync(id);
             if (discussion == null)
             {
                 return NotFound();
@@ -130,8 +133,11 @@ namespace AdultGamingForum.Controllers
                         return NotFound();
                     }
 
-                    // Preserve original CreateDate
+                    // Preserve original CreateDate 12:19am 3/10/25
                     discussion.CreateDate = existingDiscussion.CreateDate;
+
+                    // Preserve the original ApplicationUserId to avoid FK conflicts 12:19am 3/10/25
+                    discussion.ApplicationUserId = existingDiscussion.ApplicationUserId;
 
                     // Handle image upload
                     if (ImageFile != null && ImageFile.Length > 0)
@@ -144,7 +150,7 @@ namespace AdultGamingForum.Controllers
                         }
 
                         var fileExtension = Path.GetExtension(ImageFile.FileName);
-                        var uniqueFileName = $"ADF_{discussion.DiscussionId}{fileExtension}";
+                        var uniqueFileName = $"AGF_{discussion.DiscussionId}{fileExtension}";
                         var filePath = Path.Combine(imagesFolder, uniqueFileName);
 
                         using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -189,8 +195,11 @@ namespace AdultGamingForum.Controllers
                 return NotFound();
             }
 
+            // Only allow the user who created the discussion to delete it 12:06am 3/10/25
             var discussion = await _context.Discussions
+                .Where(m => m.ApplicationUserId == _userManager.GetUserId(User))
                 .FirstOrDefaultAsync(m => m.DiscussionId == id);
+
             if (discussion == null)
             {
                 return NotFound();
